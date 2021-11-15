@@ -5,7 +5,7 @@ services:
  roach1:
     image: cockroachdb/cockroach:v21.1.11
     container_name: roach1
-    command: start --insecure --join=roach1,roach2,roach3  --accept-sql-without-tls --advertise-addr=roach1:26257 
+    command: start --insecure --join=roach1,roach2,roach3  --accept-sql-without-tls 
     volumes:
       - "${PWD}/cockroach-data/roach1:/cockroach/cockroach-data"
     networks:
@@ -16,7 +16,7 @@ services:
  roach2:
     image: cockroachdb/cockroach:v21.1.11
     container_name: roach2
-    command: start --insecure --join=roach1,roach2,roach3   --accept-sql-without-tls --advertise-addr=roach2:26257
+    command: start --insecure --join=roach1,roach2,roach3   --accept-sql-without-tls 
     volumes:
       - "${PWD}/cockroach-data/roach2:/cockroach/cockroach-data"
     networks:
@@ -27,7 +27,7 @@ services:
  roach3:
     image: cockroachdb/cockroach:v21.1.11
     container_name: roach3
-    command: start --insecure --join=roach1,roach2,roach3  --accept-sql-without-tls --advertise-addr=roach3:26257
+    command: start --insecure --join=roach1,roach2,roach3  --accept-sql-without-tls 
     volumes:
       - "${PWD}/cockroach-data/roach3:/cockroach/cockroach-data"
     networks:
