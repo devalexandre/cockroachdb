@@ -1,0 +1,56 @@
+version: '3.5'
+
+services:
+
+ roach1:
+    image: cockroachdb/cockroach:v21.1.11
+    container_name: roach1
+    command: start --insecure --join=roach1,roach2,roach3  --accept-sql-without-tls --advertise-addr=roach1:26257 
+    volumes:
+      - "${PWD}/cockroach-data/roach1:/cockroach/cockroach-data"
+    networks:
+      cockroachdb_net:
+        aliases:
+          - roach1
+
+ roach2:
+    image: cockroachdb/cockroach:v21.1.11
+    container_name: roach2
+    command: start --insecure --join=roach1,roach2,roach3   --accept-sql-without-tls --advertise-addr=roach2:26257
+    volumes:
+      - "${PWD}/cockroach-data/roach2:/cockroach/cockroach-data"
+    networks:
+      cockroachdb_net:
+        aliases:
+          - roach2
+
+ roach3:
+    image: cockroachdb/cockroach:v21.1.11
+    container_name: roach3
+    command: start --insecure --join=roach1,roach2,roach3  --accept-sql-without-tls --advertise-addr=roach3:26257
+    volumes:
+      - "${PWD}/cockroach-data/roach3:/cockroach/cockroach-data"
+    networks:
+      cockroachdb_net:
+        aliases:
+          - roach3
+
+ nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - roach1
+      - roach2
+      - roach3
+    ports:
+      - "8080:4000"
+    networks:
+      cockroachdb_net:
+        aliases:
+          - loadbalance
+
+      
+networks:
+    cockroachdb_net:
+        driver: bridge
