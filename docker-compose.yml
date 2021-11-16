@@ -50,6 +50,21 @@ services:
         aliases:
           - loadbalance
 
+ haproxy:
+    image: haproxy:1.8.1
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    depends_on:
+      - roach1
+      - roach2
+      - roach3
+    ports:
+      - "26257:26257"
+    networks:
+      cockroachdb_net:
+        aliases:
+          - haproxy
+
       
 networks:
     cockroachdb_net:
