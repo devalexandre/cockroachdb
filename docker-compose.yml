@@ -65,7 +65,18 @@ services:
         aliases:
           - haproxy
 
-      
+ init:
+    image: cockroachdb/cockroach:v21.1.11
+    command: init --insecure --host=roach1
+    depends_on:
+      - roach1
+    networks:
+      cockroachdb_net:
+        aliases:
+          - init
+
+
+
 networks:
     cockroachdb_net:
         driver: bridge
