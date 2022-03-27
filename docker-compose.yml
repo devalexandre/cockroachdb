@@ -35,35 +35,20 @@ services:
         aliases:
           - roach3
 
- nginx:
-    image: nginx:latest
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - roach1
-      - roach2
-      - roach3
-    ports:
-      - "8080:4000"
-    networks:
-      cockroachdb_net:
-        aliases:
-          - loadbalance
-
  haproxy:
-    image: haproxy:1.8.1
-    volumes:
-      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
-    depends_on:
-      - roach1
-      - roach2
-      - roach3
-    ports:
-      - "26257:26257"
-    networks:
-      cockroachdb_net:
-        aliases:
-          - haproxy
+   build: haproxy
+   depends_on:
+     - roach1
+     - roach2
+     - roach3
+   ports:
+     - "26257:26257"
+     - "8080:8080"
+     - "8081:8081" 
+   networks:
+     cockroachdb_net:
+       aliases:
+         - haproxy
 
  init:
     image: cockroachdb/cockroach:v21.1.11
