@@ -3,7 +3,7 @@ version: '3.5'
 services:
 
  roach1:
-    image: cockroachdb/cockroach:v21.1.11
+    image: cockroachdb/cockroach:v22.1.0
     container_name: roach1
     command: start --insecure --join=roach1,roach2,roach3  --accept-sql-without-tls 
     volumes:
@@ -14,7 +14,7 @@ services:
           - roach1
 
  roach2:
-    image: cockroachdb/cockroach:v21.1.11
+    image: cockroachdb/cockroach:v22.1.0
     container_name: roach2
     command: start --insecure --join=roach1,roach2,roach3   --accept-sql-without-tls 
     volumes:
@@ -25,7 +25,7 @@ services:
           - roach2
 
  roach3:
-    image: cockroachdb/cockroach:v21.1.11
+    image: cockroachdb/cockroach:v22.1.0
     container_name: roach3
     command: start --insecure --join=roach1,roach2,roach3  --accept-sql-without-tls 
     volumes:
@@ -51,7 +51,7 @@ services:
          - haproxy
 
  init:
-    image: cockroachdb/cockroach:v21.1.11
+    image: cockroachdb/cockroach:v22.1.0
     command: init --insecure --host=roach1
     depends_on:
       - roach1
