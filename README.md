@@ -6,10 +6,6 @@ docker-compose up -d
 
 ```
 
-for init cluster
-```
-docker exec -it roach1 cockroach init --insecure
-```
 
 When for acess dashboard open http://localhost:8080
 
